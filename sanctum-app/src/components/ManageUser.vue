@@ -2,40 +2,46 @@
   <div class="flex flex-col h-full w-full">
     <NavbarComponent />
 
-    <h1 class="text-2xl font-bold mb-4">Manage Users</h1>
-    <router-link to="/change-password">
-      <button
-        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Change Password
-      </button>
-    </router-link>
-    <div class="flex flex-col space-y-4">
-      <div class="flex flex-col space-y-2">
-        <label for="name" class="font-semibold">Name:</label>
-        <input
-          type="text"
-          id="name"
-          v-model="user.name"
-          class="border border-gray-300 px-2 py-1 rounded"
-        />
-      </div>
+    <div className="flex flex-row min-w-[95%] mt-5 mx-auto justify-between">
+      <h1 className="text-2xl font-extrabold">Manage Users</h1>
 
-      <div class="flex flex-col space-y-2">
-        <label for="email" class="font-semibold">Email:</label>
-        <input
-          type="email"
-          id="email"
-          v-model="user.email"
-          class="border border-gray-300 px-2 py-1 rounded"
-        />
+      <router-link to="/change-password">
+        <button
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-600/75"
+        >
+          Change Password
+        </button>
+      </router-link>
+    </div>
+
+    <div className="flex flex-row min-w-[95%] mt-5 mx-auto justify-between">
+      <div class="flex flex-col space-y-4">
+        <div class="flex flex-col space-y-2">
+          <label for="name" class="font-semibold">Name:</label>
+          <input
+            type="text"
+            id="name"
+            v-model="user.name"
+            class="border border-gray-300 px-2 py-1 rounded"
+          />
+        </div>
+
+        <div class="flex flex-col space-y-2">
+          <label for="email" class="font-semibold">Email:</label>
+          <input
+            type="email"
+            id="email"
+            v-model="user.email"
+            class="border border-gray-300 px-2 py-1 rounded"
+          />
+        </div>
+        <button
+          @click="saveChanges"
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-600/75"
+        >
+          Save Changes
+        </button>
       </div>
-      <button
-        @click="saveChanges"
-        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Save Changes
-      </button>
     </div>
   </div>
 </template>
@@ -65,7 +71,7 @@ export default {
     saveChanges() {
       // Send update request to backend using axiosClient
       axiosClient
-        .put(/user/${this.userId}/update, {
+        .put(`/user/${this.userId}/update`, {
           name: this.user.name,
           email: this.user.email,
         })

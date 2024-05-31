@@ -3,13 +3,11 @@
     <router-link class="ml-10 font-extrabold">E-commerce</router-link>
     <ul class="w-fit flex gap-3 mr-10">
       <li class="nav-item space-x-3">
-        <router-link :to="/home/${this.userId}" class="nav-link"
+        <router-link :to="`/home/${this.userId}`" class="nav-link"
           >Home</router-link
         >
-        <router-link :to="/manage-user" class="nav-link"
-          >Edit Profile</router-link
-        >
-        <router-link :to="/my-products/${this.userId}" class="nav-link"
+        <router-link :to="`/manage-user`" class="nav-link">Profile</router-link>
+        <router-link :to="`/my-products/${this.userId}`" class="nav-link"
           >Products</router-link
         >
       </li>

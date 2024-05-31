@@ -41,13 +41,17 @@ class ProductController extends Controller
         $request->validate([
             'product_name' => 'required|string|max:255',
             'product_price' => 'required|numeric|min:0',
+            'user_id' => 'required|exists:users,id',
         ]);
     
         try {
             $product = new Product();
             $product->product_name = $request->product_name;
             $product->product_price = $request->product_price;
+            $product->user_id = $request->user_id;
             $product->save();
+
+            $product->load('user');
     
             return response()->json([
                 'message' => 'Product created successfully',
@@ -105,6 +109,9 @@ class ProductController extends Controller
 
             // Retrieve the updated product after the update operation
             $updatedProduct = Product::findOrFail($id);
+
+            $updatedProduct->load('user');
+
     
             return response([
                 "status" => "Success",

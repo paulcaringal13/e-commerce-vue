@@ -27,6 +27,8 @@ export default createStore({
 
     getProduct(state, products) {
       state.products = products;
+
+      console.log(products);
     },
 
     // Mutation to add a product to the state
@@ -57,7 +59,7 @@ export default createStore({
     //
     getUser({ commit }, user_id) {
       axiosClient
-        .get(/user/${user_id})
+        .get(`/user/${user_id}`)
         .then((res) => {
           commit("setUser", res.data);
         })
