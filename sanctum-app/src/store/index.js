@@ -21,6 +21,15 @@ export default createStore({
     addProduct(state, newProduct) {
       state.products.unshift(newProduct);
     },
+    // Mutation to edit a product to the state
+    updateProduct(state, updatedProduct) {
+      const index = state.products.findIndex(
+        (product) => product.id === updatedProduct.id
+      );
+      if (index !== -1) {
+        state.products[index] = updatedProduct;
+      }
+    },
   },
 
   actions: {
@@ -50,6 +59,11 @@ export default createStore({
     addProduct({ commit }, productData) {
       // Commit the mutation to update the state with the new product
       commit("addProduct", productData);
+    },
+    // Action to update a product
+    updateProduct({ commit }, updatedProduct) {
+      // Commit the mutation to update the state with the updated product
+      commit("updateProduct", updatedProduct);
     },
   },
 });
