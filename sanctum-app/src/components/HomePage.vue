@@ -4,7 +4,7 @@
 
     <div className="flex flex-row justify-between w-full">
       <h1>Products</h1>
-      <router-link :to="`/add/${userId}`">Add</router-link>
+      <router-link :to="/add/${userId}">Add</router-link>
     </div>
     <ul>
       <li v-for="product in products" :key="product.id">

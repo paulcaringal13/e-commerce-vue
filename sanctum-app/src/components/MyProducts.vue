@@ -4,7 +4,7 @@
 
     <div class="flex flex-row justify-between w-full">
       <h1>My Products</h1>
-      <router-link :to="`/add/${userId}`">Add</router-link>
+      <router-link :to="/add/${userId}">Add</router-link>
     </div>
     <ul>
       <li v-for="product in myProducts" :key="product.id">
@@ -39,11 +39,11 @@ export default {
   },
   methods: {
     gotoEditProduct(prodId) {
-      this.$router.push(`/edit/${this.userId}`);
+      this.$router.push(/edit/${this.userId});
       localStorage.setItem("prodId", prodId);
     },
     gotoDeleteProduct(prodId) {
-      this.$router.push(`/delete/${this.userId}`);
+      this.$router.push(/delete/${this.userId});
       localStorage.setItem("prodId", prodId);
     },
   },

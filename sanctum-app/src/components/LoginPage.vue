@@ -14,9 +14,7 @@
             v-model="email"
             placeholder="Enter email"
             required
-            @input="clearErrors"
           />
-          <small className="text-danger" v-if="errors">{{ errors }}</small>
         </div>
         <div className="form-group">
           <input
@@ -26,9 +24,12 @@
             v-model="password"
             placeholder="Password"
             required
-            @input="clearErrors"
           />
         </div>
+        <small className="text-red-500 mx-auto font-extrabold" v-if="errors">{{
+          errors
+        }}</small>
+
         <button
           type="submit"
           className="bg-blue-500 h-full rounded-full text-white px-4 py-2"
@@ -67,7 +68,7 @@ export default {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("id", response.data.user.id);
           this.setCurrentUser(response.data.user);
-          this.$router.push(`/home/${response.data.user.id}`);
+          this.$router.push(/home/${response.data.user.id});
         }
       } catch (error) {
         this.errors = error.response.data.message;
@@ -75,9 +76,6 @@ export default {
     },
     setCurrentUser(user) {
       this.$store.dispatch("setCurrentUser", user);
-    },
-    clearErrors() {
-      this.errors = null;
     },
   },
 };

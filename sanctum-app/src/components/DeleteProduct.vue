@@ -42,7 +42,7 @@ export default {
     getProductDetails() {
       const productId = localStorage.getItem("prodId");
       axiosClient
-        .get(`/products/${productId}`)
+        .get(/products/${productId})
         .then((response) => {
           this.productName = response.data.product_name;
           this.productPrice = response.data.product_price;
@@ -55,7 +55,7 @@ export default {
       const productId = localStorage.getItem("prodId");
 
       axiosClient
-        .delete(`/products/${productId}/delete`)
+        .delete(/products/${productId}/delete)
         .then(() => {
           alert("Product deleted successfully!");
           // Dispatch action to update the state

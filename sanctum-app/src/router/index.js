@@ -1,4 +1,4 @@
-// routes.js
+// imports
 import { createRouter, createWebHistory } from "vue-router";
 import LoginPage from "../components/LoginPage.vue";
 import RegisterPage from "../components/RegisterPage.vue";
@@ -8,7 +8,7 @@ import EditProduct from "@/components/EditProduct.vue";
 import DeleteProduct from "@/components/DeleteProduct.vue";
 import ManageUser from "@/components/ManageUser.vue";
 import MyProducts from "@/components/MyProducts.vue";
-
+import ChangePassword from "@/components/ChangePassword.vue";
 
 const routes = [
   {
@@ -63,7 +63,6 @@ const routes = [
       }
     },
   },
-
   {
     path: "/add/:id",
     component: AddProduct,
@@ -107,6 +106,19 @@ const routes = [
     path: "/manage-user",
     component: ManageUser,
     name: "manage-user",
+    beforeEnter: (to, from, next) => {
+      // check if user is logged in and redirect to login page if not
+      if (localStorage.getItem("token")) {
+        next();
+      } else {
+        next("/");
+      }
+    },
+  },
+  {
+    path: "/change-password",
+    component: ChangePassword,
+    name: "change-password",
     beforeEnter: (to, from, next) => {
       // check if user is logged in and redirect to login page if not
       if (localStorage.getItem("token")) {

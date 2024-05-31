@@ -66,7 +66,7 @@ export default {
     getProductDetails() {
       const productId = localStorage.getItem("prodId");
       axiosClient
-        .get(`/products/${productId}`)
+        .get(/products/${productId})
         .then((response) => {
           this.productName = response.data.product_name;
           this.productPrice = response.data.product_price;
@@ -83,7 +83,7 @@ export default {
       };
 
       axiosClient
-        .put(`/products/${productId}/update`, updatedProduct)
+        .put(/products/${productId}/update, updatedProduct)
         .then((response) => {
           alert("Product updated successfully!");
           this.$store.dispatch("updateProduct", response.data.product);
