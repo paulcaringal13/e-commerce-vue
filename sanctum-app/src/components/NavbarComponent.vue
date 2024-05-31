@@ -6,7 +6,12 @@
         <router-link :to="`/home/${this.userId}`" class="nav-link"
           >Home</router-link
         >
-        <router-link :to="`/manage-user`" class="nav-link">Users</router-link>
+        <router-link :to="`/manage-user`" class="nav-link"
+          >Edit Profile</router-link
+        >
+        <router-link :to="`/my-products/${this.userId}`" class="nav-link"
+          >Products</router-link
+        >
       </li>
       <li class="nav-item">
         <router-link to="/logout" class="nav-link">Logout</router-link>

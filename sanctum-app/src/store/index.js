@@ -30,6 +30,11 @@ export default createStore({
         state.products[index] = updatedProduct;
       }
     },
+    deleteProduct(state, productId) {
+      state.products = state.products.filter(
+        (product) => product.id !== productId
+      );
+    },
   },
 
   actions: {
@@ -64,6 +69,10 @@ export default createStore({
     updateProduct({ commit }, updatedProduct) {
       // Commit the mutation to update the state with the updated product
       commit("updateProduct", updatedProduct);
+    },
+    // Action to delete a product
+    deleteProduct({ commit }, productId) {
+      commit("deleteProduct", productId);
     },
   },
 });
