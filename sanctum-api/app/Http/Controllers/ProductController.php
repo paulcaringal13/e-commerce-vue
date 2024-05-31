@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -15,28 +17,47 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        try {   
+            $products = Product::with('user')->orderBy('id', 'desc')->get();
+            
+            return response([
+                "products" => $products
+            ], 200);
+        } catch (Exception $e) {
+            return response([
+                "error" => $e->getMessage()
+            ], 500);
+        }
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_name' => 'required|string|max:255',
+            'product_price' => 'required|numeric|min:0',
+        ]);
+    
+        try {
+            $product = new Product();
+            $product->product_name = $request->product_name;
+            $product->product_price = $request->product_price;
+            $product->save();
+    
+            return response()->json([
+                'message' => 'Product created successfully',
+                'product' => $product
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -45,9 +66,14 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+            return response()->json($product);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -68,9 +94,27 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+            $update = $product->update([
+                'product_name' => $request->product_name,
+                'product_price' => $request->product_price
+            ]);
+
+            // Retrieve the updated product after the update operation
+            $updatedProduct = Product::findOrFail($id);
+    
+            return response([
+                "status" => "Success",
+                "product" => $updatedProduct
+            ]);
+        } catch (Exception $e) {
+            return response([
+                "error" => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -79,8 +123,23 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+
+            if($product) {
+                $product->delete();
+    
+                return response([
+                    "status" => "Success",
+                    "message" => "Product deleted successfully"
+                ]);
+            } 
+        } catch (Exception $e) {
+            return response([
+                "error" => $e->getMessage()
+            ], 500);
+        }
     }
 }

@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use App\Models\User; // Add this line
 
 class Product extends Model
 {
@@ -20,24 +19,12 @@ class Product extends Model
     protected $fillable = [
         'product_name',
         'product_price',
+        'user_id', // Add userId to fillable
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // Define the user relationship
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
