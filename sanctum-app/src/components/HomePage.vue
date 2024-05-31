@@ -1,9 +1,17 @@
 <template>
   <div className="flex flex-col h-full w-full">
     <NavbarComponent />
-    <button @click="gotoEditProduct(1)">Edit</button>
-    <button @click="gotoAddProduct()">Add</button>
-    <button @click="gotoDeleteProduct(1)">Delete</button>
+
+    <div className="flex flex-row justify-between w-full">
+      <h1>Products</h1>
+      <router-link :to="`/add/${userId}`">Add</router-link>
+    </div>
+    <ul>
+      <li v-for="product in products" :key="product.id">
+        {{ product.id }} | {{ product.product_name }} -
+        {{ product.product_price }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -12,30 +20,19 @@ import NavbarComponent from "./NavbarComponent.vue";
 
 export default {
   name: "HomePage",
-
   components: {
     NavbarComponent,
   },
-
   computed: {
     userId() {
       return localStorage.getItem("id");
     },
-  },
-  methods: {
-    gotoEditProduct(prodId) {
-      this.$router.push(`/edit/${localStorage.getItem("id")}`);
-      localStorage.setItem("prodId", prodId);
-    },
-    gotoAddProduct() {
-      this.$router.push(`/add/${localStorage.getItem("id")}`);
-    },
-    gotoDeleteProduct(prodId) {
-      this.$router.push(`/delete/${localStorage.getItem("id")}`);
-      localStorage.setItem("prodId", prodId);
+    products() {
+      return this.$store.state.products;
     },
   },
   mounted() {
+    this.$store.dispatch("getProduct");
     this.$store.dispatch("getUser", localStorage.getItem("id"));
   },
 };
